@@ -3,7 +3,7 @@ const { queueCrawlerInSearchEngine } = require('../queue/index');
 const crawler = require('../crawler/pupeteer/index')
 
 queueCrawlerInSearchEngine.process(async(job, done) => {
-    crawler(job.data.data);
+    await crawler(job.data.data);
     done();
 });
 

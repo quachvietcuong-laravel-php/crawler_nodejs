@@ -7,10 +7,10 @@ const { crawlerInSearchEngine } = require('./spider/index');
 const runCron = () => {
     switch (configs.schedule) {
         case true:
-            // cron.schedule('0 */24 * * *', () => {
-            console.log('****** running a task every 00:00 daily');
-            crawlerInSearchEngine()
-                // }, {...cronConfigs });
+            cron.schedule('0 */24 * * *', () => {
+                console.log('****** running a task every 00:00 daily');
+                crawlerInSearchEngine()
+            }, {...cronConfigs });
             break;
 
         default:
