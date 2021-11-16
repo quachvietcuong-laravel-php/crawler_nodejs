@@ -4,7 +4,7 @@ const {
 } = require('../helper');
 
 
-async function getDataYahoo(page, keyURL, keyword, classData, path) {
+async function getDataYahoo(page, website_name, keyword, classData, path) {
     try {
         await page.click('input[name=p]');
         await page.keyboard.type(keyword);
@@ -21,7 +21,7 @@ async function getDataYahoo(page, keyURL, keyword, classData, path) {
 
         $(classData).each((index, element) => {
             let href = $(element).find('.sw-Card__section--header .sw-Card__headerSpace .sw-Card__title a').attr('href');
-            if (!href || href.includes(keyURL)) {
+            if (!href || href.includes(website_name)) {
                 return true;
             };
             let name = $(element).find('.sw-Card__section--header .sw-Card__headerSpace .sw-Card__title a h3.sw-Card__titleMain span').text();

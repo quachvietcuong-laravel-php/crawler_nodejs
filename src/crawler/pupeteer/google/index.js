@@ -1,11 +1,10 @@
 const cheerio = require('cheerio');
-const configs = require('../../../../configs');
-const createFloder = require('../../../helper/createFloder');
 const {
     capture,
 } = require('../helper');
 
-async function getDataGoogle(page, keyURL, keyword, classData, path) {
+
+async function getDataGoogle(page, website_name, keyword, classData, path) {
     try {
         await page.click('[name=q]');
         await page.keyboard.type(keyword);
@@ -22,7 +21,7 @@ async function getDataGoogle(page, keyURL, keyword, classData, path) {
 
         $(classData).each((index, element) => {
             let href = $(element).find('a').attr('href');
-            if (!href || href.includes(keyURL)) {
+            if (!href || href.includes(website_name)) {
                 return true;
             };
             let name = $(element).find('h3.LC20lb').text();

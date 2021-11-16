@@ -14,12 +14,27 @@ async function crawler(dataURL) {
     let search = configs.search_url;
     let result = [];
 
+    let website_name = dataURL.website_name;
+    let keyword = dataURL.keyword_name;
+
     for (let url of search) {
-        let browser = await startBrowser();
+        let data, browser = await startBrowser();
 
         if (browser) {
             await sleep(1000);
-            let data = await crawlerDetails(browser, url, dataURL.website_name, dataURL.keyword_name);
+            let page = await setting(browser);
+
+            try {
+                await page.goto(url, {
+                    waitUntil: 'networkidle2'
+                });
+                await page.waitForTimeout(1000);
+                data = await checkURL(url, page, website_name, keyword);
+
+            } catch (error) {
+                await page.close();
+                data = [];
+            }
 
             if (data.length > 0) {
                 result = result.concat(data);
@@ -32,41 +47,30 @@ async function crawler(dataURL) {
     return result;
 }
 
-async function crawlerDetails(browser, url, keyURL, keyword) {
-    let page = await setting(browser);
+async function checkURL(url, page, website_name, keyword) {
+    let classData, path, data;
 
-    try {
-        await page.goto(url, {
-            waitUntil: 'networkidle2'
-        });
-
-    } catch (error) {
-        await page.close();
-        return [];
-    }
-
-    return await getData(url, page, keyURL, keyword);
-}
-
-async function getData(url, page, keyURL, keyword) {
-    await page.waitForTimeout(1000);
-
-    let classData, data, path;
     let time = getCurrentTime();
     let timePath = `${time.year}/${time.month}/${time.day}/`;
 
-    if (url.includes('google')) {
-        classData = '.tF2Cxc';
+    switch (url) {
+        case 'https://www.google.com/':
+            classData = '.tF2Cxc';
 
-        path = configs.dir_app.image_path + 'google/' + timePath;
-        data = await getDataGoogle(page, keyURL, keyword, classData, path);
-    }
+            path = configs.dir_app.image_path + 'google/' + timePath;
+            data = await getDataGoogle(page, website_name, keyword, classData, path);
+            break;
 
-    if (url.includes('yahoo')) {
-        classData = '.sw-CardBase .sw-Card section';
+        case 'https://www.yahoo.co.jp/':
+            classData = '.sw-CardBase .sw-Card section';
 
-        path = configs.dir_app.image_path + 'yahoo/' + timePath;
-        data = await getDataYahoo(page, keyURL, keyword, classData, path);
+            path = configs.dir_app.image_path + 'yahoo/' + timePath;
+            data = await getDataYahoo(page, website_name, keyword, classData, path);
+            break;
+
+        default:
+            data = [];
+            break;
     }
 
     return (data) ? data : [];
