@@ -1,20 +1,26 @@
 {
-  "dependencies": {
-    "cheerio": "^1.0.0-rc.10",
-    "puppeteer": "^11.0.0",
-    "puppeteer-extra": "^3.2.3",
-    "puppeteer-extra-plugin-stealth": "^2.9.0",
-    "random-useragent": "^0.5.0"
-  },
-  "name": "test_crawler",
-  "version": "1.0.0",
-  "main": "app.js",
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+    "dependencies": {
+        "bull": "^4.1.0",
+        "cheerio": "^1.0.0-rc.10",
+        "date-fns-tz": "^1.1.6",
+        "dotenv": "^10.0.0",
+        "is-reachable": "^5.1.0",
+        "mysql": "^2.18.1",
+        "node-cron": "^3.0.0",
+        "puppeteer": "^11.0.0",
+        "puppeteer-extra": "^3.2.3",
+        "puppeteer-extra-plugin-stealth": "^2.9.0",
+        "random-useragent": "^0.5.0",
+        "user-agents": "^1.0.836"
+    },
+    "name": "test_crawler",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
 }
