@@ -8,7 +8,11 @@ queueCrawlerInSearchEngine.process(async(job, done) => {
 });
 
 const crawlerInSearchEngine = async() => {
-    let options = { priority: 1 };
+    let options = {
+        priority: 1,
+        removeOnComplete: true,
+        removeOnFail: true
+    };
     let query = `
         SELECT websites.website_name, keywords.keyword_name
         FROM websites

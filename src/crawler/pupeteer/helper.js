@@ -2,6 +2,20 @@ const configs = require('../../../configs');
 const UserAgent = require('user-agents')
 const userAgent = new UserAgent({ deviceCategory: 'desktop' });
 const createFloder = require('../../helper/createFloder');
+const puppeteer = require('puppeteer-extra');
+// const pluginProxy = require('puppeteer-extra-plugin-proxy');
+// const getProxyDetail = require('../../helper/getProxyDetail');
+
+
+// const ProxyDetail = getProxyDetail();
+// puppeteer.use(pluginProxy({
+//     address: ProxyDetail.address,
+//     port: ProxyDetail.port,
+//     credentials: {
+//         username: configs.http.proxy_username,
+//         password: configs.http.proxy_password
+//     }
+// }));
 
 const puppeteerArgs = {
     headless: true, // false is open chromium, true is not open
@@ -13,7 +27,19 @@ const puppeteerArgs = {
         '--disable-setuid-sandbox',
         '--ignore-certificate-errors',
         '--disable-dev-profile',
+        '--disable-web-security',
     ],
+}
+
+async function startBrowser() {
+    let browser;
+    try {
+        browser = await puppeteer.launch(puppeteerArgs);
+    } catch (err) {
+        console.log("Could not create a browser instance => : ", err);
+        return null;
+    }
+    return browser;
 }
 
 async function setting(browser) {
@@ -56,6 +82,7 @@ async function capture(path, name, page, width = null, height = null) {
 }
 
 module.exports = {
+    startBrowser,
     puppeteerArgs,
     capture,
     setting,
