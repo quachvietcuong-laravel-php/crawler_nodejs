@@ -14,9 +14,6 @@ async function crawler(dataURL) {
     let search = configs.search_url;
     let result = [];
 
-    let website_name = dataURL.website_name;
-    let keyword = dataURL.keyword_name;
-
     for (let url of search) {
         let data, browser = await startBrowser();
 
@@ -29,7 +26,7 @@ async function crawler(dataURL) {
                     waitUntil: 'networkidle2'
                 });
                 await page.waitForTimeout(1000);
-                data = await checkURL(url, page, website_name, keyword);
+                data = await checkURL(url, page, dataURL);
 
             } catch (error) {
                 await page.close();
@@ -47,7 +44,7 @@ async function crawler(dataURL) {
     return result;
 }
 
-async function checkURL(url, page, website_name, keyword) {
+async function checkURL(url, page, dataURL) {
     let classData, path, data;
 
     let time = getCurrentTime();
@@ -58,14 +55,14 @@ async function checkURL(url, page, website_name, keyword) {
             classData = '.tF2Cxc';
 
             path = configs.dir_app.image_path + 'google/' + timePath;
-            data = await getDataGoogle(page, website_name, keyword, classData, path);
+            data = await getDataGoogle(page, dataURL, classData, path);
             break;
 
         case 'https://www.yahoo.co.jp/':
             classData = '.sw-CardBase .sw-Card section';
 
             path = configs.dir_app.image_path + 'yahoo/' + timePath;
-            data = await getDataYahoo(page, website_name, keyword, classData, path);
+            data = await getDataYahoo(page, dataURL, classData, path);
             break;
 
         default:

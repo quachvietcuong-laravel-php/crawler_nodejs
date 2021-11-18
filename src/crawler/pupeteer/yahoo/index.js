@@ -4,8 +4,10 @@ const {
 } = require('../helper');
 
 
-async function getDataYahoo(page, website_name, keyword, classData, path) {
+async function getDataYahoo(page, dataURL, classData, path) {
     try {
+        let keyword = dataURL.name;
+
         await page.click('input[name=p]');
         await page.keyboard.type(keyword);
         await page.keyboard.press('Enter');
@@ -20,20 +22,18 @@ async function getDataYahoo(page, website_name, keyword, classData, path) {
         let links = [];
 
         $(classData).each((index, element) => {
-            let href = $(element).find('.sw-Card__section--header .sw-Card__headerSpace .sw-Card__title a').attr('href');
-            if (!href || href.includes(website_name)) {
+            let url = $(element).find('.sw-Card__section--header .sw-Card__headerSpace .sw-Card__title a').attr('href');
+            if (!url || url.includes(dataURL.url)) {
                 return true;
             };
-            let name = $(element).find('.sw-Card__section--header .sw-Card__headerSpace .sw-Card__title a h3.sw-Card__titleMain span').text();
 
-            let description = $(element).find('.sw-Card__section .sw-Card__space .sw-Card__floatContainer .sw-Card__summary').text();
+            let search_site = 'yahoo';
+            let keyword_id = dataURL.id;
 
-            links.push({
-                name: name,
-                href: href,
-                description: description,
-            })
-        })
+            links.push([
+                url, search_site, keyword_id
+            ]);
+        });
 
         try {
             await capture(path, `${name}_mobile.png`, page, 411, 736);

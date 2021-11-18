@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const cronConfigs = require('./helper/cronConfig');
 const configs = require('../configs');
-const { crawlerInSearchEngine } = require('./spider/index');
+const { crawlerInSearchEngine } = require('./schedule/index');
 
 
 const runCron = () => {

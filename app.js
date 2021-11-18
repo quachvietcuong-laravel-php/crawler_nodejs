@@ -1,6 +1,5 @@
-const configs = require('./configs');
 const mysql = require('./src/mysql/index');
-const { runCron } = require('./src/schedule');
+const { runCron } = require('./src/cronjob');
 
 
 (async() => {

@@ -18,7 +18,7 @@ const puppeteer = require('puppeteer-extra');
 // }));
 
 const puppeteerArgs = {
-    headless: true, // false is open chromium, true is not open
+    headless: true, // false is open chromium, true is not open (true is better performance)
     ignoreDefaultArgs: [
         '--disable-extensions'
     ],
